@@ -6,6 +6,7 @@ import App from './App.jsx';
 import About from './pages/About.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Contact from './pages/Contact.jsx';
+import ImageBrowser from './pages/Page.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/12345" element={<ImageBrowser />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

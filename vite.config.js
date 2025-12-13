@@ -11,6 +11,5 @@ export default defineConfig({
       clientPort: 5173,           // in case you're using HMR (default Vite port)
     },
     origin: 'http://localhost:5173',  // fallback origin
-    allowedHosts: ['full-cool-dane.ngrok-free.app']
   },
 })

@@ -170,6 +170,15 @@
     text-align: center;
     gap: 30px;
   }
+  .brand-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brand-desc{
+    text-align: center;
+  }
   
   .footer-heading::after {
     left: 50%;

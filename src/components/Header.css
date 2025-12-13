@@ -1,107 +1,213 @@
-.header {
-  background: linear-gradient(135deg, #2C7D78, #0F5864);
-  padding: 16px 50px;
-  color: #FAFAFA;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* --- HEADER VARIABLES --- */
+:root {
+  --header-height: 70px;
+  --z-header: 1000;
+  --z-overlay: 999;
+}
+
+/* --- HEADER CONTAINER --- */
+.header-mobile-optimized {
   position: sticky;
   top: 0;
-  z-index: 1000;
-}
-
-.header-logo img {
-  border-radius: 3px;
-  height: 50px;
-}
-
-.header-nav {
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background: white;
+  /* Added stronger shadow for better definition against page content */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+  z-index: var(--z-header);
   display: flex;
   align-items: center;
 }
 
-.nav-list {
-  list-style: none;
+.header-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
-  gap: 40px;
-  font-size: 1rem;
-  font-weight: bold;
+  justify-content: space-between; /* Pushes Menu Left and Call Right */
+  align-items: center;
+  position: relative; /* Needed for absolute centering of logo */
 }
 
-.nav-item a {
-  color: #FAFAFA;
+/* --- LOGO --- */
+.logo-container img {
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
+/* --- DESKTOP NAVIGATION --- */
+.desktop-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-item {
   text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-item a:hover {
-  color: #e0e0e0;
-}
-
-.h-btn {
-  background-color: #FAFAFA;
-  color: #0F5864;
-  border: 1px solid #2C7D78;
-  font-weight: bold;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
+  color: var(--text-main);
+  font-weight: 500;
   font-size: 1rem;
+  transition: color 0.2s;
+  position: relative;
+  padding: 5px 0;
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--brand-dark);
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--brand-orange);
+}
+
+/* --- RIGHT SIDE ACTIONS --- */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Desktop "Get Quote" Button */
+.btn-desktop-quote {
+  background: var(--brand-dark);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.3s;
 }
 
-.h-btn:hover {
-  color: #FAFAFA;
-  background-color: #0F5864;
-  border: 1px solid #2C7D78;
+.btn-desktop-quote:hover {
+  background: var(--brand-orange);
 }
 
+/* Mobile "Direct Call" Circle Button */
+.btn-mobile-call {
+  display: none; /* Hidden on Desktop */
+  background: var(--brand-teal);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(45, 140, 145, 0.3);
+}
+
+.btn-mobile-call:active {
+  transform: scale(0.95);
+}
+
+/* Menu Toggle Button */
 .menu-toggle {
-  display: none;
-  background: none;
+  display: none; /* Hidden on Desktop */
+  background: transparent;
   border: none;
-  color: #fff;
-  font-size: 28px;
+  padding: 0;
+  color: var(--brand-dark);
   cursor: pointer;
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
+/* --- MOBILE OVERLAY (DRAWER) --- */
+.mobile-overlay {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  background: white;
+  z-index: var(--z-overlay);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.mobile-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-links a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  text-decoration: none;
+  color: var(--brand-dark);
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-footer {
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.mobile-footer p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.btn-mobile-big-call {
+  background: var(--brand-dark);
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+@media (max-width: 900px) {
+  /* 1. HIDE DESKTOP ITEMS */
+  .desktop-nav { display: none; }
+  .btn-desktop-quote { display: none; }
+  
+  /* 2. SHOW MOBILE ITEMS */
+  .menu-toggle { display: block; }
+  .btn-mobile-call { display: flex; }
+  
+  /* 3. CENTER THE LOGO ON MOBILE */
+  /* This absolute positioning guarantees it sits exactly in the middle of the screen */
+  .logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
-  .header {
-    flex-wrap: wrap;
-    padding: 16px 20px;
-  }
+  /* Make logo slightly larger on mobile to fill space */
+  .logo-container img { height: 50px; }
 
-  .header-nav {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-  }
-
-  .header-nav.open {
-    max-height: 400px;
-    opacity: 1;
-  }
-
-  .nav-list {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 10px;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .desktop-only {
-    display: none;
-  }
+  /* Adjust padding */
+  .header-inner { padding: 0 15px; }
 }

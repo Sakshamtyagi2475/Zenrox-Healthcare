@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
+// --- DATA MOCK ---
 const imageMetadata = {
   'shoe-red.jpg': 'Nike Air Jordan Red',
   'watch-gold.png': 'Luxury Gold Watch',
@@ -9,6 +10,7 @@ const manualImages = [
   { id: 'manual-1', url: '/Welcome-page.webp', name: 'Welcome Page' },
 ];
 
+// Load images (Vite specific)
 const imagesGlob = import.meta.glob('../assets/products/*.{png,jpg,jpeg,svg,webp}', { eager: true });
 const folderImages = Object.entries(imagesGlob).map(([path, module], index) => {
   const filename = path.split('/').pop();
@@ -34,9 +36,8 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState('');
   
   // --- LAYOUT STATE ---
-  // Default: 50% of the current window width
   const [sidebarWidth, setSidebarWidth] = useState(() => 
-    typeof window !== 'undefined' ? window.innerWidth / 2 : 400
+    typeof window !== 'undefined' ? window.innerWidth * 0.30 : 300
   );
   
   const [isResizing, setIsResizing] = useState(false);
@@ -49,17 +50,21 @@ const Page = () => {
     return images.filter(img => img.name.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [images, searchQuery]);
 
-  // --- RESIZING ---
-  const startResizing = useCallback(() => setIsResizing(true), []);
+  // --- RESIZING LOGIC ---
+  const startResizing = useCallback((e) => {
+    e.preventDefault();
+    setIsResizing(true);
+  }, []);
+
   const stopResizing = useCallback(() => setIsResizing(false), []);
 
-  const getClientX = (event) => 'touches' in event ? event.touches[0].clientX : event.clientX;
-  
   const resize = useCallback((e) => {
     if (isResizing) {
-      const clientX = getClientX(e);
-      // Min width 100px, Max width (Screen - 50px)
-      if (clientX >= 100 && clientX <= window.innerWidth - 50) {
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const maxWidth = window.innerWidth * 0.8; // Max 80% of screen
+      
+      // Min 150px, Max 80%
+      if (clientX >= 150 && clientX <= maxWidth) {
         setSidebarWidth(clientX);
       }
     }
@@ -88,14 +93,15 @@ const Page = () => {
       width: '100%',
       overflow: 'hidden',     
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      userSelect: 'none', 
+      userSelect: isResizing ? 'none' : 'auto',
       touchAction: 'none',
+      backgroundColor: '#f9fafb',
     },
     // Left Pane
     leftPane: {
-      // Logic: If open, use sidebarWidth. If closed, 0px.
       width: isSidebarOpen ? `${sidebarWidth}px` : '0px',
-      minWidth: isSidebarOpen ? '100px' : '0px',
+      minWidth: isSidebarOpen ? '150px' : '0px',
+      maxWidth: '80%', // CSS fallback for safety
       opacity: isSidebarOpen ? 1 : 0,
       height: '100%',
       backgroundColor: '#f4f4f5',
@@ -103,7 +109,7 @@ const Page = () => {
       flexDirection: 'column', 
       borderRight: isSidebarOpen ? '1px solid #e5e7eb' : 'none',
       transition: isResizing ? 'none' : 'width 0.3s ease, opacity 0.2s ease',
-      position: 'relative',
+      overflow: 'hidden',
     },
     header: {
       padding: '15px',
@@ -114,6 +120,8 @@ const Page = () => {
       display: 'flex',
       gap: '10px',
       alignItems: 'center',
+      borderBottom: '1px solid #e5e7eb',
+      flexShrink: 0,
     },
     inputWrapper: {
       position: 'relative',
@@ -123,63 +131,79 @@ const Page = () => {
     },
     searchInput: {
       width: '100%',
-      padding: '10px 10px 10px 35px',
-      borderRadius: '8px',
+      padding: '8px 10px 8px 35px',
+      borderRadius: '6px',
       border: '1px solid #d1d5db',
       fontSize: '14px',
       outline: 'none',
-      boxSizing: 'border-box',
+      backgroundColor: 'white',
     },
     searchIcon: {
       position: 'absolute',
       left: '10px',
       pointerEvents: 'none',
+      display: 'flex',
     },
-    // Grid
+    // Grid System
     gridArea: {
       flex: 1, 
       overflowY: 'auto',
-      padding: '0 10px 10px 10px',
+      padding: '15px',
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', 
-      gap: '8px',
+      // Responsive grid: minimum 110px width per item
+      gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', 
+      gap: '12px',
       alignContent: 'start',
     },
+    // Card Style (Image Top, Text Bottom)
     imageItem: {
-      aspectRatio: '1 / 1',   
+      display: 'flex',
+      flexDirection: 'column',
       cursor: 'pointer',
-      borderRadius: '6px',
-      border: '2px solid transparent',
-      overflow: 'hidden',
-      backgroundColor: '#e5e7eb',
-      position: 'relative',
+      borderRadius: '8px',
+      border: '1px solid #e5e7eb',
+      overflow: 'visible',
+      backgroundColor: '#ffffff',
+      transition: 'all 0.2s ease',
+      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+      height: 'fit-content',
     },
+
     activeImage: {
       borderColor: '#2563eb', 
       boxShadow: '0 0 0 2px rgba(37, 99, 235, 0.2)',
-      transform: 'scale(0.95)',
+    },
+    // Image Container
+    imgContainer: {
+      width: '100%',
+      aspectRatio: '1 / 1', // Keeps the image area square
+      backgroundColor: '#fff',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '5px',
+      borderBottom: '1px solid #f3f4f6',
     },
     imgThumb: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
+      maxWidth: '100%',
+      maxHeight: '100%',
+      width: 'auto',
+      height: 'auto',
+      objectFit: 'contain', // Ensures FULL image is visible
       display: 'block',
       pointerEvents: 'none', 
     },
+    // Text Label
     label: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
       width: '100%',
-      background: 'rgba(0,0,0,0.6)',
-      color: 'white',
-      fontSize: '10px',
-      padding: '4px',
-      boxSizing: 'border-box',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
+      padding: '8px',
+      fontSize: '11px',
+      color: '#374151',
       textAlign: 'center',
+      whiteSpace: 'normal', // Allow text to wrap
+      overflow: 'hidden',
+      lineHeight: '1.3',
+      fontWeight: '500',
     },
     resizer: {
       display: isSidebarOpen ? 'block' : 'none',
@@ -187,7 +211,7 @@ const Page = () => {
       marginLeft: '-6px',
       cursor: 'col-resize',
       height: '100%',
-      backgroundColor: isResizing ? '#2563eb' : 'transparent', 
+      backgroundColor: 'transparent', 
       position: 'relative',
       zIndex: 10, 
     },
@@ -207,9 +231,8 @@ const Page = () => {
       maxHeight: '100%',
       objectFit: 'contain', 
       borderRadius: '8px',
-      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
     },
-    // Buttons
     controlButton: {
       padding: '8px',
       borderRadius: '8px',
@@ -223,15 +246,15 @@ const Page = () => {
       transition: 'all 0.2s',
       zIndex: 20,
     },
-    // Specific styles for floating buttons
     floatingBtn: {
       position: 'absolute',
       top: '20px',
-      boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
       borderRadius: '50%', 
+      width: '40px',
+      height: '40px',
     },
-
-fullScreenOverlay: {
+    fullScreenOverlay: {
       position: 'fixed',
       top: 0,
       left: 0,
@@ -242,24 +265,32 @@ fullScreenOverlay: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      animation: 'fadeIn 0.2s ease-out',
     },
     fullScreenImg: {
       width: 'auto',
       height: 'auto',
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-      
+      maxWidth: '95vw',
+      maxHeight: '95vh',
       objectFit: 'contain', 
       borderRadius: '4px',
-      boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+      boxShadow: '0 0 30px rgba(0,0,0,0.5)',
     },
     closeFsButton: {
-      position: 'absolute', top: '20px', right: '20px',
-      background: 'rgba(255,255,255,0.2)', color: 'white',
-      border: 'none', borderRadius: '50%',
-      width: '40px', height: '40px',
-      cursor: 'pointer', display: 'flex',
-      alignItems: 'center', justifyContent: 'center',
+      position: 'absolute', 
+      top: '20px', 
+      right: '20px',
+      background: 'rgba(255,255,255,0.15)', 
+      color: 'white',
+      border: '1px solid rgba(255,255,255,0.2)', 
+      borderRadius: '50%',
+      width: '44px', 
+      height: '44px',
+      cursor: 'pointer', 
+      display: 'flex',
+      alignItems: 'center', 
+      justifyContent: 'center',
+      transition: 'background 0.2s',
     }
   };
 
@@ -270,14 +301,14 @@ fullScreenOverlay: {
         {/* --- LEFT SIDEBAR --- */}
         <div style={styles.leftPane}>
           <div style={styles.header}>
-            {/* HIDE SIDEBAR BUTTON (Placed here as requested) */}
             <button 
               style={styles.controlButton}
               onClick={() => setIsSidebarOpen(false)}
-              title="Hide Sidebar"><IconArrowLeft />
+              title="Hide Sidebar"
+            >
+              <IconArrowLeft />
             </button>
 
-            {/* Search Bar */}
             <div style={styles.inputWrapper}>
               <div style={styles.searchIcon}><IconSearch /></div>
               <input 
@@ -290,7 +321,6 @@ fullScreenOverlay: {
             </div>
           </div>
 
-          {/* Grid */}
           <div style={styles.gridArea}>
             {filteredImages.length > 0 ? (
               filteredImages.map((img) => (
@@ -303,13 +333,17 @@ fullScreenOverlay: {
                   onClick={() => setSelectedImage(img)}
                   title={img.name}
                 >
-                  <img src={img.url} alt={img.name} style={styles.imgThumb} loading="lazy" />
+                  {/* Image Area */}
+                  <div style={styles.imgContainer}>
+                    <img src={img.url} alt={img.name} style={styles.imgThumb} loading="lazy" />
+                  </div>
+                  {/* Text Area */}
                   <div style={styles.label}>{img.name}</div>
                 </div>
               ))
             ) : (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#666', marginTop: '20px' }}>
-                No results.
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#6b7280', marginTop: '20px', fontSize: '14px' }}>
+                No images found.
               </div>
             )}
           </div>
@@ -320,14 +354,13 @@ fullScreenOverlay: {
           style={styles.resizer}
           onMouseDown={startResizing}
           onTouchStart={startResizing}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#93c5fd'} 
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(37, 99, 235, 0.5)'} 
           onMouseLeave={(e) => !isResizing && (e.currentTarget.style.backgroundColor = 'transparent')}
         />
 
         {/* --- RIGHT PREVIEW PANE --- */}
         <div style={styles.rightPane}>
           
-          {/* SHOW SIDEBAR BUTTON (Only visible when sidebar is CLOSED) */}
           {!isSidebarOpen && (
             <button 
               style={{...styles.controlButton, ...styles.floatingBtn, left: '20px'}}
@@ -338,7 +371,6 @@ fullScreenOverlay: {
             </button>
           )}
 
-          {/* FULL SCREEN BUTTON */}
           {selectedImage && (
             <button 
               style={{...styles.controlButton, ...styles.floatingBtn, right: '20px'}}
@@ -349,29 +381,34 @@ fullScreenOverlay: {
             </button>
           )}
 
-          {/* PREVIEW */}
           {selectedImage ? (
             <div style={{textAlign: 'center', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
               <img src={selectedImage.url} alt="Preview" style={styles.previewImage} />
-              <h3 style={{marginTop: '15px', color: '#333'}}>{selectedImage.name}</h3>
+              <h3 style={{marginTop: '20px', color: '#111827', fontWeight: '500'}}>{selectedImage.name}</h3>
             </div>
           ) : (
-            <div style={{ color: '#6b7280' }}>Click an image</div>
+            <div style={{ color: '#9ca3af', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+              <IconSearch />
+              <span>Select an image to view</span>
+            </div>
           )}
         </div>
       </div>
 
       {/* --- FULL SCREEN OVERLAY --- */}
-{isFullScreen && selectedImage && (
+      {isFullScreen && selectedImage && (
         <div style={styles.fullScreenOverlay} onClick={() => setIsFullScreen(false)}>
-          <button style={styles.closeFsButton}>
+          <button 
+            style={styles.closeFsButton}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+          >
             <IconClose />
           </button>
           <img 
             src={selectedImage.url} 
             alt="Full Screen" 
             style={styles.fullScreenImg}
-            // Stop propagation so clicking the image doesn't close the viewer
             onClick={(e) => e.stopPropagation()} 
           />
         </div>

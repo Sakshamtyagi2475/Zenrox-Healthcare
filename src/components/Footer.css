@@ -1,101 +1,193 @@
-.footer {
-  background: linear-gradient(135deg, #2C7D78, #0F5864);
-  color: white;
-  padding: 40px 20px 20px;
-  font-family: 'Segoe UI', sans-serif;
+/* Ensure these match your App.css variables */
+:root {
+  --brand-dark: #1F3A4D;       /* Deep Petrol Blue */
+  --brand-orange: #E65538;     /* Highlight Orange */
+  --brand-teal: #2D8C91;       /* Icon Teal */
+  --text-grey: #b0c4de;        /* Softer white text for readability */
 }
 
-.footer-container {
+.footer {
+  background-color: var(--brand-dark);
+  color: white;
+  padding: 60px 20px 20px;
+  font-family: 'Poppins', sans-serif;
+  border-top: 5px solid var(--brand-orange); /* Top Accent Line */
+}
+
+.footer-content {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-section {
-  flex: 1 1 250px;
+.footer-col {
+  flex: 1;
+  min-width: 250px;
 }
 
+/* --- Brand Column --- */
 .footer-logo {
-  height: 50px;
-  margin-bottom: 15px;
+  height: 60px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 5px;
+  border-radius: 8px;
 }
 
-.footer-section h4 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.brand-desc {
+  color: var(--text-grey);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  max-width: 300px;
 }
 
-.footer-section ul {
+/* --- Headings --- */
+.footer-heading {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+  color: white;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 40px;
+  height: 3px;
+  background-color: var(--brand-orange); /* Orange Underline */
+  border-radius: 2px;
+}
+
+/* --- Links --- */
+.footer-links {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.footer-section ul li {
-  margin-bottom: 8px;
+.footer-links li {
+  margin-bottom: 12px;
 }
 
-.footer-section ul li a {
-  color: white;
+.footer-links a {
+  color: var(--text-grey);
   text-decoration: none;
-  transition: opacity 0.3s;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-.footer-section ul li a:hover {
-  color: #d0d0d0;
+.footer-links a:hover {
+  color: var(--brand-orange);
+  transform: translateX(5px); /* Slide effect */
 }
 
-.footer-bottom {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 0.9rem;
-  border-top: 1px solid #ffffff40;
-  padding-top: 10px;
+/* --- Contact Info --- */
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: var(--text-grey);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
-.footer-bottom p {
-  margin: 5px 0;
+
+.contact-icon {
+  color: var(--brand-teal); /* Teal Icons */
+  font-size: 1.1rem;
+  margin-top: 4px;
 }
-.footer-bottom a {
-  color: white;
+
+.contact-item a {
+  color: var(--text-grey);
   text-decoration: none;
   transition: color 0.3s;
 }
-.footer-bottom a:hover {
-  color: #d0d0d0;
+
+.contact-item a:hover {
+  color: white;
 }
+
+/* --- Social Icons --- */
 .social-icons {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 15px;
 }
 
 .social-icons a {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
   color: white;
-  gap: 10px;
-  font-size: 1.1rem;
-  transition: color 0.3s;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .social-icons a:hover {
-  color: #d0d0d0;
+  background-color: var(--brand-orange); 
+  transform: translateY(-3px);
 }
 
-/* ✅ Responsive Footer */
+/* --- Footer Bottom --- */
+.footer-bottom {
+  text-align: center;
+  padding-top: 25px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.developer-credit a {
+  color: var(--brand-teal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.developer-credit a:hover {
+  text-decoration: underline;
+}
+
+/* --- Responsive --- */
 @media (max-width: 768px) {
-  .footer-container {
+  .footer-content {
     flex-direction: column;
-    align-items: center;
     text-align: center;
+    gap: 30px;
+  }
+  
+  .footer-heading::after {
+    left: 50%;
+    transform: translateX(-50%);
   }
 
-  .footer-section {
-    flex: 1 1 100%;
+  .contact-item {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 

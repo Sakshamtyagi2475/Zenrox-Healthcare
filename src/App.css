@@ -1,85 +1,295 @@
-.about {
-  display: flex;
-  padding: 60px 30px;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+:root {
+  --brand-dark: #1F3A4D;       /* "Zenrox" Dark Blue-Grey */
+  --brand-orange: #E65538;     /* "Health" Orange */
+  --brand-pink: #C55895;       /* "Care" Pink/Purple */
+  --brand-teal: #2D8C91;       /* Icon Teal */
+  
+  /* Functional Colors */
+  --bg-light: #F4F8FA;        
+  --white: #ffffff;
+  --text-main: #333333;
+  --text-light: #666666;
+  
+  --logo-gradient: linear-gradient(90deg, var(--brand-orange) 0%, var(--brand-pink) 100%);
+  
+  --transition: all 0.3s ease;
 }
 
-.about-text{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  font-size: large;
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  color: var(--text-main);
+  background-color: var(--white);
+  line-height: 1.6;
 }
 
-
-.about-img {
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
-  box-sizing: border-box;
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--brand-dark); 
 }
-
-.about-img img{
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-.about-text h1{
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #2C7D78, #3B9CA1, #6F6BA8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* For Firefox */
-  color: transparent;
-}
-
-
-.product-section {
-  padding: 40px 20px;
-  background: #f2f2f2;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 3rem;
-  margin-bottom: 30px;
-  background: linear-gradient(135deg, #2C7D78, #3B9CA1, #6F6BA8);
+.text-gradient {
+  background: var(--logo-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
+  display: inline-block;
 }
 
-.carousel {
-  overflow: hidden;
-  white-space: nowrap;
-  margin: 20px 0;
+/* --- HERO SECTION --- */
+.hero {
+  background: var(--brand-dark); 
+  padding: 80px 20px;
+  text-align: center;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 5px solid var(--brand-orange); 
   position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 800px;
+  z-index: 2;
+}
+
+.badge {
+  /* Glassmorphism effect for dark background */
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--brand-teal); /* Teal text works well on the dark bg */
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+  display: inline-block;
+  /* Semi-transparent white border for subtle definition */
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(5px);
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: var(--white); /* Pure white for headline */
+}
+
+.hero p {
+  font-size: 1.25rem;
+  /* Light Blue-Grey text is easier to read on Dark Blue than pure grey */
+  color: #b0c4de; 
+  margin-bottom: 35px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--logo-gradient); /* Orange to Pink Gradient */
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(230, 85, 56, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(230, 85, 56, 0.6);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--brand-dark);
+  border: 2px solid var(--white);
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+
+/* --- FEATURES SECTION --- */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 60px 20px;
+  background: var(--white);
+  margin-top: -60px; /* Overlap effect */
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.feature-card {
+  background: white;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+  width: 280px;
+  text-align: center;
+  transition: var(--transition);
+  border-top: 5px solid var(--brand-teal); /* Top Accent */
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-icon {
+  color: var(--brand-teal);
+  margin-bottom: 20px;
+  background: rgba(45, 140, 145, 0.1);
+  padding: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+/* --- ABOUT SECTION --- */
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 100px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.about-img {
+  flex: 1;
+  max-width: 500px;
+  position: relative;
+}
+
+.about-img img {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.img-caption {
+  position: absolute;
+  bottom: 25px;
+  right: -25px;
+  background: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand-dark);
+  font-weight: 700;
+  border-left: 5px solid var(--brand-orange); /* Orange Accent */
+}
+
+.about-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.section-subtitle {
+  color: var(--brand-orange);
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.about-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--brand-dark);
+}
+
+.stat-row {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.stat-row strong {
+  font-size: 2rem;
+  color: var(--brand-teal); /* Teal Stats */
+}
+
+/* --- PRODUCT SECTION --- */
+.product-section {
+  padding: 80px 0;
+  background: var(--bg-light);
+  overflow: hidden;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 1.2rem;
 }
 
 .carousel-track {
   display: flex;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-duration: 30s;
-  animation-play-state: running;
-  margin-bottom: 30px;
+  gap: 20px;
+  width: max-content;
+  animation: scroll-left 40s linear infinite;
 }
 
-
-.right-to-left .carousel-track {
-  animation-name: scroll-left;
+.product-card {
+  width: 200px;
+  height: 200px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
 }
 
-.left-to-right .carousel-track {
-  animation-name: scroll-right;
+.product-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card:hover img {
+  transform: scale(1.1);
 }
 
 @keyframes scroll-left {
@@ -87,129 +297,124 @@
   100% { transform: translateX(-50%); }
 }
 
-@keyframes scroll-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-.product-image {
-  width: 200px;
-  height: 200px;
-  flex-shrink: 0;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-right: 20px;
-  opacity: 0;
-  transform: scale(1.05);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.product-image.loaded {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .product-image {
-    width: 130px;
-    height: 130px;
-    margin-right: 12px;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-  }
-}
-
-
-.review-title {
+/* --- REVIEWS SECTION (Light Theme) --- */
+.reviews-section {
+  padding: 100px 20px;
+  background-color: var(--bg-light); /* Light Background */
+  color: var(--text-main);           /* Dark Text for readability */
   text-align: center;
-  font-size: 3rem;
-  font-weight: 600;
-  margin-bottom: 30px;
-  padding: 30px;
-  background: linear-gradient(135deg, #2C7D78, #3B9CA1, #6F6BA8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text; /* For Firefox */
-  color: transparent;
+  overflow: hidden;
 }
 
-.review-container {
-  max-width: 600px;
-  margin: 40px auto;
-  text-align: center;
-  background: linear-gradient(135deg, #2C7D78, #0F5864);
-  backdrop-filter: blur(10px);
-  padding: 30px;
-  border-radius: 16px;
-  color: black;
-  transition: all 0.5s ease-in-out;
+.reviews-section h2 {
+  color: var(--brand-dark);          /* Deep Blue Heading */
+  margin-bottom: 50px;
+}
+
+.review-display {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.review-quote-icon {
+  font-size: 5rem;
+  /* Changed from white to faint Brand Dark for the light bg */
+  color: rgba(31, 58, 77, 0.1); 
+  line-height: 1;
+  margin-bottom: -20px;
 }
 
 .review-text {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-style: italic;
-  margin-bottom: 15px;
-  color: #FFFFFF;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+  margin-bottom: 30px;
+  color: var(--brand-dark); /* Dark text */
 }
 
-.review-name {
-  font-weight: bold;
-  font-size: 1rem;
-  opacity: 0.8;
+.review-author h4 {
+  color: var(--brand-orange); /* Orange Name (Keeps Brand Identity) */
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.review-author span {
+  opacity: 0.7;
+  font-size: 0.9rem;
+  color: var(--text-light); /* Grey text for role */
+}
+
+.review-dots {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  /* Darker grey dots so they show up on light bg */
+  background: rgba(0, 0, 0, 0.2); 
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  background: var(--brand-orange);
+  transform: scale(1.3);
+}
+/* --- CTA STRIP --- */
+.cta-strip {
+  background: var(--brand-dark);
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
   color: white;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
 }
 
-/* ✅ Mobile Responsive */
+.cta-content h3 {
+  color: white;
+  font-size: 1.8rem;
+}
+
+.btn-white {
+  background: white;
+  color: var(--brand-dark);
+  border: none;
+  padding: 15px 40px;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;  
+  transition: var(--transition);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+a{
+  text-decoration: none;
+}
+
+.btn-white:hover {
+  transform: scale(1.05);
+  background-color: #f8f9fa;
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-  .about {
-    padding: 30px 20px;
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .about-text {
-    font-size: 1rem;
-    padding: 10px;
-  }
-  
-  .about-img img {
-    width: 100%;
-    height: auto;
-  }
-
-  .review-title {
-    font-size: 1.8rem;
-    padding: 20px 10px;
-  }
-
-  .review-container {
-    padding: 20px;
-    margin: 20px;
-  }
-
-  .carousel-track {
-    margin-bottom: 20px;
-  }
-
-  .product-section {
-    padding: 20px 10px;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-  .product-image {
-    width: 130px;
-    height: 130px;
-    margin-right: 12px;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-  }
+  .hero h1 { font-size: 2.2rem; }
+  .hero-buttons { flex-direction: column; }
+  .about { flex-direction: column; text-align: center; }
+  /* .img-caption { right: 50%; transform: translateX(50%); bottom: -50px; } */
+  .img-caption { display: none;}
+  .stat-row { justify-content: center; }
+  .review-quote-icon {display:none;}
+  .cta-strip { text-align: center; flex-direction: column; gap: 20px; }
+  .features { margin-top: 0; }
 }
